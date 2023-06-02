@@ -12,10 +12,13 @@ CREATE TABLE articulos (
 DROP TABLE IF EXISTS usuarios CASCADE;
 
 CREATE TABLE usuarios (
-    id       bigserial    PRIMARY KEY,
-    usuario  varchar(255) NOT NULL UNIQUE,
-    password varchar(255) NOT NULL,
-    validado bool         NOT NULL
+    id          bigserial       PRIMARY KEY,
+    usuario     varchar(255)    NOT NULL UNIQUE,
+    password    varchar(255)    NOT NULL,
+    nombre      varchar(255)    NOT NULL,
+    apellido    varchar(255)    NOT NULL,
+    puntos      int             NOT NULL DEFAULT 0,
+    validado    bool            NOT NULL
 );
 
 DROP TABLE IF EXISTS facturas CASCADE;
@@ -59,6 +62,6 @@ INSERT INTO descuentos (descuento)
                 ('20%'),
                 ('Segunda Unidad 50%');
 
-INSERT INTO usuarios (usuario, password, validado)
-    VALUES ('admin', crypt('admin', gen_salt('bf', 10)), true),
-           ('pepe', crypt('pepe', gen_salt('bf', 10)), false);
+INSERT INTO usuarios (usuario, password, nombre, apellido, puntos, validado)
+    VALUES ('admin', crypt('admin', gen_salt('bf', 10)), 'Administrador', 'Sitio', 100000, true),
+           ('pepe', crypt('pepe', gen_salt('bf', 10)), 'Pepe', 'Sanchez', 5, false);

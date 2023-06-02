@@ -21,6 +21,8 @@ use App\Tablas\Usuario;
     $login = obtener_post('login');
     $password = obtener_post('password');
     $password_repeat = obtener_post('password_repeat');
+    $nombre = obtener_post('nombre');
+    $apellido = obtener_post('apellido');
 
     $clases_label = [];
     $clases_input = [];
@@ -29,7 +31,7 @@ use App\Tablas\Usuario;
     $clases_label_error = "text-red-700 dark:text-red-500";
     $clases_input_error = "bg-red-50 border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500 dark:bg-red-100 dark:border-red-400";
 
-    foreach (['login', 'password', 'password_repeat'] as $e) {
+    foreach (['login', 'password', 'password_repeat', 'nombre', 'apellido'] as $e) {
         $clases_label[$e] = '';
         $clases_input[$e] = '';
     }
@@ -88,7 +90,7 @@ use App\Tablas\Usuario;
 
         if ($vacio) {
             // Registrar
-            Usuario::registrar($login, $password, $pdo);
+            Usuario::registrar($login, $password, $nombre, $apellido, $pdo);
             $_SESSION['exito'] = 'El usuario se ha registrado correctamente.';
             return redirigir_login();
         } else {
@@ -111,6 +113,14 @@ use App\Tablas\Usuario;
                     <?php foreach ($error['login'] as $err): ?>
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-bold">¡Error!</span> <?= $err ?></p>
                     <?php endforeach ?>
+                </div>
+                <div class="mb-6">
+                    <label for="nombre" class="block mb-2 text-sm font-medium <?= $clases_label['nombre'] ?>">Nombre</label>
+                    <input type="text" name="nombre" id="nombre" class="border text-sm rounded-lg block w-full p-2.5  <?= $clases_input['nombre'] ?>">
+                </div>
+                <div class="mb-6">
+                    <label for="apellido" class="block mb-2 text-sm font-medium <?= $clases_label['apellido'] ?>">Apellido</label>
+                    <input type="text" name="apellido" id="apellido" class="border text-sm rounded-lg block w-full p-2.5  <?= $clases_input['apellido'] ?>">
                 </div>
                 <div class="mb-6">
                     <label for="password" class="block mb-2 text-sm font-medium <?= $clases_label['password'] ?>">Contraseña</label>
