@@ -23,22 +23,11 @@ session_start() ?>
     }
 
     $usuario = \App\Tablas\Usuario::logueado();
-    $id = $usuario->id;
 
     ?>
 
     <div class="container mx-auto">
-        <?php require_once '../src/_menu.php';
-
-        $pdo = conectar();
-
-        $sent = $pdo->prepare('SELECT * FROM usuarios WHERE id = :id');
-
-        $sent->execute([':id' => $id]);
-
-        $res = $sent->fetch();
-        
-        ?>
+        <?php require_once '../src/_menu.php'; ?>
 
 <div class="relative overflow-x-auto">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -61,16 +50,16 @@ session_start() ?>
         <tbody>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <?= $res['usuario'] ?>
+                    <?= $usuario->getUsuario() ?>
                 </th>
                 <td class="px-6 py-4">
-                    <?= $res['nombre'] ?>
+                    <?= $usuario->getNombre() ?>
                 </td>
                 <td class="px-6 py-4">
-                <?= $res['apellido'] ?>
+                <?= $usuario->getApellido() ?>
                 </td>
                 <td class="px-6 py-4">
-                <?= $res['puntos'] ?>
+                <?= $usuario->getPuntos() ?>
                 </td>
             </tr>
             </tr>

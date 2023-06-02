@@ -9,12 +9,18 @@ class Usuario extends Modelo
 
     public $id;
     public $usuario;
+    private $nombre;
+    private $apellido;
     public $validado;
+    public $puntos;
 
     public function __construct(array $campos)
     {
         $this->id = $campos['id'];
         $this->usuario = $campos['usuario'];
+        $this->nombre = $campos['nombre'];
+        $this->apellido = $campos['apellido'];
+        $this->puntos = $campos['puntos'];
         $this->validado = $campos['validado'];
     }
 
@@ -77,5 +83,15 @@ class Usuario extends Modelo
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getNombre() 
+    {
+        return $this->nombre;
+    }
+
+    public function getApellido() 
+    {
+        return $this->apellido;
     }
 }
