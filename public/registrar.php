@@ -116,11 +116,11 @@ use App\Tablas\Usuario;
                 </div>
                 <div class="mb-6">
                     <label for="nombre" class="block mb-2 text-sm font-medium <?= $clases_label['nombre'] ?>">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" class="border text-sm rounded-lg block w-full p-2.5  <?= $clases_input['nombre'] ?>">
+                    <input type="text" name="nombre" id="nombre" class="border text-sm rounded-lg block w-full p-2.5  <?= $clases_input['nombre'] ?>" value="<?= hh($nombre) ?>">
                 </div>
                 <div class="mb-6">
                     <label for="apellido" class="block mb-2 text-sm font-medium <?= $clases_label['apellido'] ?>">Apellido</label>
-                    <input type="text" name="apellido" id="apellido" class="border text-sm rounded-lg block w-full p-2.5  <?= $clases_input['apellido'] ?>">
+                    <input type="text" name="apellido" id="apellido" class="border text-sm rounded-lg block w-full p-2.5  <?= $clases_input['apellido'] ?>" value="<?= hh($apellido) ?>">
                 </div>
                 <div class="mb-6">
                     <label for="password" class="block mb-2 text-sm font-medium <?= $clases_label['password'] ?>">Contraseña</label>
