@@ -12,7 +12,6 @@ class Usuario extends Modelo
     private $nombre;
     private $apellido;
     public $validado;
-    public $puntos;
 
     public function __construct(array $campos)
     {
@@ -20,7 +19,6 @@ class Usuario extends Modelo
         $this->usuario = $campos['usuario'];
         $this->nombre = $campos['nombre'];
         $this->apellido = $campos['apellido'];
-        $this->puntos = $campos['puntos'];
         $this->validado = $campos['validado'];
     }
 
@@ -100,8 +98,14 @@ class Usuario extends Modelo
         return $this->usuario;
     }
 
-    public function getPuntos()
+    public function getPuntos(?PDO $pdo = null)
     {
-        return $this->puntos;
+        $pdo = conectar();
+        $sent = $pdo->prepare('SELECT puntos FROM usuarios WHERE id = :id');
+
+        $sent->execute([':id' => $this->id]);
+
+        return $sent->fetch()[0];
     }
+
 }

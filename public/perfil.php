@@ -1,6 +1,4 @@
 <?php
-
-use App\Tablas\Factura;
 use App\Tablas\Usuario;
 
 session_start() ?>
@@ -22,8 +20,9 @@ session_start() ?>
         return redirigir_login();
     }
 
-    $usuario = \App\Tablas\Usuario::logueado();
+    
 
+    $usuario = \App\Tablas\Usuario::logueado();    
     ?>
 
     <div class="container mx-auto">

@@ -26,6 +26,7 @@ session_start() ?>
         ['usuario_id = :usuario_id'],
         [':usuario_id' => Usuario::logueado()->id]
     );
+
     ?>
 
     <div class="container mx-auto">
