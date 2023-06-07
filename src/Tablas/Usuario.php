@@ -94,4 +94,14 @@ class Usuario extends Modelo
     {
         return $this->apellido;
     }
+
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+
+    public function getPuntos()
+    {
+        return $this->puntos;
+    }
 }
