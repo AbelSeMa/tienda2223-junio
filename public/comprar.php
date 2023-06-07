@@ -78,6 +78,17 @@
             $values = [];
             $execute = [':f' => $factura_id];
             $i = 1;
+
+            $sent2 = $pdo->query("SELECT puntos FROM usuarios WHERE id = $usuario_id");
+            $res = $sent2->fetch();
+
+            $sumaPuntos = round($_SESSION['a'] + $res[0]);
+
+            $sent3 = $pdo->prepare("UPDATE usuarios 
+                                  SET puntos = :puntos
+                                  WHERE id = :id");
+            $sent3->execute([':puntos' => $sumaPuntos,
+                             ':id' => $usuario_id]);
         }
 
         foreach ($lineas as $id => $linea) {
