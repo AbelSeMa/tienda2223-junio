@@ -39,7 +39,7 @@ session_start() ?>
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <th scope="col" class="py-3 px-6">Fecha</th>
                     <th scope="col" class="py-3 px-6">Total</th>
-                    <th scope="col" class="py-3 px-6">Diferencia</th>
+                    <th scope="col" class="py-3 px-6">Ahorro</th>
                     <th scope="col" class="py-3 px-6 text-center">Acciones</th>
                 </thead>
                 <tbody>
@@ -64,10 +64,10 @@ session_start() ?>
                                 <?= hh($created_at->format('d-m-Y H:i:s')) ?>
                             </td>
                             <td class="py-4 px-6">
-                                <?= hh($res['total']) ?>
+                                <?= hh(dinero($res['total'])) ?>
                             </td>
                             <td class="py-4 px-6">
-                                <?= hh($diferencia) ?>
+                                <?= hh(dinero($diferencia)) ?>
                             </td>
                             <td class="px-6 text-center">
                                 <a href="/factura_pdf.php?id=<?= $factura->id ?>" target="_blank">

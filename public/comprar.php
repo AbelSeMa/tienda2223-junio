@@ -21,6 +21,7 @@
     $carrito = unserialize(carrito());
     $ids = implode(', ', $carrito->getIds());
     $where = "WHERE id IN (" . $ids . ")";
+    $precioPuntos = 0.10;
 
 
     if (obtener_post('_testigo') !== null) {
@@ -43,11 +44,11 @@
             $usuario_id = $usuario->id;
             $sent2 = $pdo->query("SELECT puntos FROM usuarios WHERE id = $usuario_id");
             $res = $sent2->fetch();
-            $rebaja = $_SESSION['a'] - ($res[0] * 0.20);
+            $rebaja = $_SESSION['a'] - ($res[0] * $precioPuntos);
             $restantes  = 0;
             if ($rebaja < 0) {
                 $rebaja = 0;
-                $restantes = $res[0] - ($_SESSION['a'] / 0.2);
+                $restantes = $res[0] - ($_SESSION['a'] / $precioPuntos);
             }
 
             $pdo->beginTransaction();
@@ -64,7 +65,6 @@
             $sent3 = $pdo->query("UPDATE usuarios 
                                   SET puntos = $restantes 
                                   WHERE id = $usuario_id");
-            
         } else {
             $usuario = \App\Tablas\Usuario::logueado();
             $usuario_id = $usuario->id;
@@ -82,13 +82,15 @@
             $sent2 = $pdo->query("SELECT puntos FROM usuarios WHERE id = $usuario_id");
             $res = $sent2->fetch();
 
-            $sumaPuntos = round($_SESSION['a'] + $res[0]);
+            $sumaPuntos = round(($_SESSION['a'] + $res[0]) / 2);
 
             $sent3 = $pdo->prepare("UPDATE usuarios 
                                   SET puntos = :puntos
                                   WHERE id = :id");
-            $sent3->execute([':puntos' => $sumaPuntos,
-                             ':id' => $usuario_id]);
+            $sent3->execute([
+                ':puntos' => $sumaPuntos,
+                ':id' => $usuario_id
+            ]);
         }
 
         foreach ($lineas as $id => $linea) {
@@ -156,13 +158,13 @@
                                 }
                                 break;
                             case '20%':
-                                $importe = $importe - ($importe * 0.20);
+                                $importe = $importe - ($importe * $precioPuntos);
                                 $total += $importe;
                                 $_SESSION['a'] = $total;
                                 break;
 
                             case 'Segunda Unidad 50%':
-                                $importe = ($importe * $cantidad / 2) + ($cantidad / 2 * $precio / 2);
+                                $importe = ($precio * $cantidad / 2) + ($cantidad / 2 * $precio / 2);
                                 $total += $importe;
                                 break;
                             case '':
@@ -195,10 +197,29 @@
             </table>
             <form action="" method="POST" class="mx-auto flex mt-4">
                 <input type="hidden" name="_testigo" value="1">
-                <label>
-                    <input type="radio" name="_puntos" value="puntos"> Utilizar puntos
-                </label>
                 <button type="submit" href="" class="mx-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900">Realizar pedido</button>
+                <?php 
+
+                    $usuario = \App\Tablas\Usuario::logueado();
+                    $usuario_id = $usuario->id;
+
+                    $sent = $pdo->query("SELECT puntos 
+                                         FROM usuarios
+                                         WHERE id = $usuario_id");
+                    $res = $sent->fetch();
+
+                    if ($res[0] > 0) : ?>
+                        <div class="flex">
+                            <div class="flex items-center h-5">
+                                <input name="_puntos" id="puntos" aria-describedby="helper-checkbox-text" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            </div>
+                            <div class="ml-2 text-sm">
+                                <label for="_puntos" class="font-medium text-gray-900 dark:text-gray-300">Usar puntos en esta compra</label>
+                                <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">Se utilizarán todos los puntos disponible. Si el número de puntos es mayor que la compra</p>
+                                <p id="helper-checkbox-text" class="text-xs font-normal text-gray-500 dark:text-gray-300">la diferencia de puntos será devuelta.</p>
+                            </div>
+                        </div>
+                    <?php endif ?>
             </form>
         </div>
     </div>
